@@ -11,7 +11,7 @@ const posts = [
   {
     id: "1",
     image: "https://bit.ly/dan-abramov",
-    createdAt: "jan 16 2024",
+    createdAt: "Jan 16 2024",
     postTitle: "Understanding Humans psycology, philosophy and Psiology",
     views: 12,
   },
@@ -19,56 +19,56 @@ const posts = [
   {
     id: "2",
     image: "https://bit.ly/dan-abramov",
-    createdAt: "jan 16 2024",
+    createdAt: "Jan 16 2024",
     postTitle: "Understanding Humans psycology, philosophy and Psiology",
     views: 200,
   },
   {
     id: "3",
     image: "https://bit.ly/dan-abramov",
-    createdAt: "jan 16 2024",
+    createdAt: "Jan 16 2024",
     postTitle: "Understanding Humans psycology, philosophy and Psiology",
     views: 20,
   },
   {
     id: "4",
     image: "https://bit.ly/dan-abramov",
-    createdAt: "jan 16 2024",
+    createdAt: "Jan 16 2024",
     postTitle: "Understanding Humans psycology, philosophy and Psiology",
     views: 800,
   },
   {
     id: "4",
     image: "https://bit.ly/dan-abramov",
-    createdAt: "jan 16 2024",
+    createdAt: "Jan 16 2024",
     postTitle: "Understanding Humans psycology, philosophy and Psiology",
     views: 800,
   },
   {
     id: "4",
     image: "https://bit.ly/dan-abramov",
-    createdAt: "jan 16 2024",
+    createdAt: "Jan 16 2024",
     postTitle: "Understanding Humans psycology, philosophy and Psiology",
     views: 800,
   },
   {
     id: "4",
     image: "https://bit.ly/dan-abramov",
-    createdAt: "jan 16 2024",
+    createdAt: "Jan 16 2024",
     postTitle: "Understanding Humans psycology, philosophy and Psiology",
     views: 800,
   },
   {
     id: "4",
     image: "https://bit.ly/dan-abramov",
-    createdAt: "jan 16 2024",
+    createdAt: "Jan 16 2024",
     postTitle: "Understanding Humans psycology, philosophy and Psiology",
     views: 800,
   },
   {
     id: "4",
     image: "https://bit.ly/dan-abramov",
-    createdAt: "jan 16 2024",
+    createdAt: "Jan 16 2024",
     postTitle: "Understanding Humans psycology, philosophy and Psiology",
     views: 800,
   },
@@ -79,8 +79,8 @@ const Posts = () => {
     <HStack px={4} py={3} justify={'space-between'}><Heading>Posts</Heading><Button rounded={'full'} as={Link} href={'posts/new'} textDecor={'none!important'}><MatIcon name='post_add'/> Create Post</Button></HStack>
 <Box bg={'blackTrans-5'} minH={'300px'} flex={1}>
 
-  <Box display={'flex'} p={'24px 0px'} flexDirection={'column'} alignItems={'flex-start'} gap={10}>
-  <Box display={'flex'} p={'19px 0px'} justifyContent={'center'} flexWrap={'wrap'} alignItems={'center'} gap={20} alignSelf={'stretch'}>
+  <Box display={'flex'} p={'24px 0px'} flexDirection={'column'} alignItems={'flex-start'} gap={'10px'}>
+  <Box display={'flex'} p={'19px 0px'} justifyContent={'center'} flexWrap={'wrap'} alignItems={'center'} gap={5} alignSelf={'stretch'}>
 
 {posts.map((post) => (
  <>

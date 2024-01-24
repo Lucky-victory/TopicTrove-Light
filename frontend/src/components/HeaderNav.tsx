@@ -19,7 +19,7 @@ export default function HeaderNav<HeaderProps>({ bg = "appGreen" }) {
       justify={"space-between"}
     >
       <Logo />
-      <Box display={{'base':'none'}}>
+      <Box display={{'base':'none',lg:'block',md:'block'}}>
       <Nav />
       </Box>
       <Flex>

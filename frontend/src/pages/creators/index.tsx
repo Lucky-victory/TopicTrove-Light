@@ -1,4 +1,5 @@
 import HeaderNav from "@/components/HeaderNav";
+import { RequestPostFormWithModal } from "@/components/RequestPostForm";
 import {
   Avatar,
   Box,
@@ -20,6 +21,7 @@ import {
   VStack,
   Button,
   HStack,
+  useDisclosure,
 } from "@chakra-ui/react";
 
 import React from "react";
@@ -52,9 +54,10 @@ const creators = [
 ];
 
 const Creators = () => {
-  // let counter = 0;
+  const {isOpen,onClose,onOpen}=useDisclosure()
   return (
     <div>
+      <RequestPostFormWithModal onClose={onClose} onOpen={onOpen} isOpen={isOpen} />
       <Box maxW={"1350px"} marginX={"auto"}>
         <HeaderNav />
 
@@ -265,7 +268,7 @@ const Creators = () => {
                       p={"6px 16px"}
                      
                       gap={10}
-                      rounded={'full'}
+                      rounded={'full'} onClick={onOpen}
                       background={"black"}
                     >
                       <Text
