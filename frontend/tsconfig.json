@@ -17,6 +17,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "../backend/siweServer.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "backend/siweServer.ts"],
   "exclude": ["node_modules"]
 }
