@@ -10,7 +10,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 import dotenv from "dotenv";
 dotenv.config();
-const {COPYLEAKS_API_KEY} = process.env;
+const { COPYLEAKS_API_KEY } = process.env;
 
 // const COPYLEAKS_API_KEY =
 //   "FB5193C14CCA4CEF07A4279F1675072FF557E487914FB4BC959230C88E0081C1";
@@ -31,7 +31,9 @@ export const GET: HTTP_METHOD_CB = async (
   res: NextApiResponse,
 ) => {
   try {
-    return await successHandlerCallback(req, res, { message: "Get response" });
+    return await successHandlerCallback(req, res, {
+      message: `Verify a post ${JSON.stringify(req.query)}  response`,
+    });
   } catch (error) {
     return await errorHandlerCallback(req, res, { message: "Get response" });
   }
@@ -41,7 +43,7 @@ export const POST: HTTP_METHOD_CB = async (
   res: NextApiResponse,
 ) => {
   try {
-    const { content, status} = req.body;
+    const { content, status } = req.body;
 
     const copyleaksData = {
       text: content,

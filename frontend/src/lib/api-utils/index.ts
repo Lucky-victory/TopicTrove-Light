@@ -4,15 +4,17 @@ export async function successHandlerCallback<T>(
   req: NextApiRequest,
   res: NextApiResponse,
   data: T,
+  status = 200,
 ): Promise<void> {
-  return res.status(200).json(data);
+  return res.status(status).json(data);
 }
 export async function errorHandlerCallback<T>(
   req: NextApiRequest,
   res: NextApiResponse,
   data: T,
+  status = 500,
 ): Promise<void> {
-  return res.status(500).json(data);
+  return res.status(status).json(data);
 }
 
 export type HTTP_METHOD = "GET" | "PUT" | "POST" | "DELETE";

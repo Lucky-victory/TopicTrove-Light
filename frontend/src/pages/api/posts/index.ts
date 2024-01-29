@@ -8,7 +8,10 @@ import {
 } from "@/lib/api-utils";
 import { NextApiRequest, NextApiResponse } from "next";
 import dotenv from "dotenv";
+import { eq, or } from "drizzle-orm";
 dotenv.config();
+import isEmpty from "just-is-empty";
+import { IS_DEV } from "@/lib/utils";
 
 export default async function handler(
   req: NextApiRequest,
@@ -25,9 +28,29 @@ export const GET: HTTP_METHOD_CB = async (
   res: NextApiResponse,
 ) => {
   try {
-    return await successHandlerCallback(req, res, { message: "Get response" });
-  } catch (error) {
-    return await errorHandlerCallback(req, res, { message: "Get response" });
+    let { id_or_slug: idOrSlug } = req.query;
+    idOrSlug = idOrSlug as string;
+    let slugOrId: number | string = "";
+    if (!Number.isNaN(+idOrSlug)) {
+      slugOrId = +idOrSlug;
+    } else {
+      slugOrId = idOrSlug;
+    }
+
+    const response = await db
+      .select()
+      .from(posts)
+      .where(eq(posts.status, "PUBLISHED"));
+
+    return await successHandlerCallback(req, res, {
+      message: `Posts retrieved successfully`,
+      data: response,
+    });
+  } catch (error: any) {
+    return await errorHandlerCallback(req, res, {
+      message: "An error occurred",
+      error: IS_DEV ? { ...error } : null,
+    });
   }
 };
 export const POST: HTTP_METHOD_CB = async (
@@ -45,16 +68,10 @@ export const POST: HTTP_METHOD_CB = async (
     }
 
     const insert = await db.insert(posts).values({ ...rest, status });
-    console.log(insert);
 
-    return await successHandlerCallback(
-      req,
-      res,
-      {
-        message: "Post created successfully",
-      },
-      201,
-    );
+    return await successHandlerCallback(req, res, {
+      message: "Post created successfully",
+    });
   } catch (error: any) {
     console.log(error);
     return await errorHandlerCallback(req, res, {

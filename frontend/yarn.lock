@@ -6371,6 +6371,11 @@ junk@^4.0.1:
   resolved "https://registry.yarnpkg.com/junk/-/junk-4.0.1.tgz#7ee31f876388c05177fe36529ee714b07b50fbed"
   integrity sha512-Qush0uP+G8ZScpGMZvHUiRfI0YBWuB3gVBYlI0v0vvOJt5FLicco+IkP0a50LqTTQhmts/m6tP5SWE+USyIvcQ==
 
+just-is-empty@^3.4.1:
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/just-is-empty/-/just-is-empty-3.4.1.tgz#a3d287bf37e8b91856568747c4aed8c8dc992428"
+  integrity sha512-bweyqPPl3HReVyVzLJvCJn+cfXJKh6dy4kSLoW9YLqwFz+2vZbWLN38AOK7esEIVPQwY1W48HaNvOFZqYAjLpw==
+
 jwt-decode@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-4.0.0.tgz#2270352425fd413785b2faf11f6e755c5151bd4b"
