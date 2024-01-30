@@ -8,7 +8,7 @@ import {
 } from "@/lib/api-utils";
 import { NextApiRequest, NextApiResponse } from "next";
 import dotenv from "dotenv";
-import { eq, or } from "drizzle-orm";
+import { desc, eq, gt, or } from "drizzle-orm";
 dotenv.config();
 import isEmpty from "just-is-empty";
 import { IS_DEV } from "@/lib/utils";
@@ -17,7 +17,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  mainHandler(req, res, {
+  return mainHandler(req, res, {
     GET,
     POST,
   });
@@ -28,20 +28,61 @@ export const GET: HTTP_METHOD_CB = async (
   res: NextApiResponse,
 ) => {
   try {
-    let { id_or_slug: idOrSlug } = req.query;
-    idOrSlug = idOrSlug as string;
-    let slugOrId: number | string = "";
-    if (!Number.isNaN(+idOrSlug)) {
-      slugOrId = +idOrSlug;
-    } else {
-      slugOrId = idOrSlug;
+    /*
+     * filter - the type of filter, e.g trend for trending posts, category for categories
+    filterCount -  the limit of posts to retrieve for that filter
+    count - the limit of posts to retrieve for non-filter
+     */
+    let { filter, filterCount = 4, count = 6 } = req.query;
+
+    let response;
+    if (!isEmpty(filter) && filter == "trend") {
+      response = await db.query.posts.findMany({
+        columns: {
+          userId: false,
+        },
+        with: {
+          author: {
+            columns: {
+              avatar: true,
+              fullName: true,
+              firstName: true,
+              isVerified: true,
+              id: true,
+              username: true,
+            },
+          },
+        },
+        where: eq(posts.status, "PUBLISHED"),
+        orderBy: desc(posts.views),
+        limit: +filterCount,
+      });
+      return await successHandlerCallback(req, res, {
+        message: `Trending posts retrieved successfully`,
+        data: response,
+      });
     }
 
-    const response = await db
-      .select()
-      .from(posts)
-      .where(eq(posts.status, "PUBLISHED"));
-
+    response = await db.query.posts.findMany({
+      columns: {
+        userId: false,
+      },
+      with: {
+        author: {
+          columns: {
+            avatar: true,
+            fullName: true,
+            firstName: true,
+            isVerified: true,
+            id: true,
+            username: true,
+          },
+        },
+      },
+      where: eq(posts.status, "PUBLISHED"),
+      orderBy: desc(posts.createdAt),
+      limit: !isEmpty(count) ? 0 : +count,
+    });
     return await successHandlerCallback(req, res, {
       message: `Posts retrieved successfully`,
       data: response,
@@ -67,21 +108,15 @@ export const POST: HTTP_METHOD_CB = async (
       });
     }
 
-    const insert = await db.insert(posts).values({ ...rest, status });
+    await db.insert(posts).values({ ...rest, status });
 
     return await successHandlerCallback(req, res, {
       message: "Post created successfully",
     });
   } catch (error: any) {
-    console.log(error);
     return await errorHandlerCallback(req, res, {
       message: "An error occured",
+      error: IS_DEV ? { ...error } : null,
     });
   }
 };
-// export function PUT(req:NextApiRequest,res:NextApiResponse){
-
-// }
-// export function DELETE(req:NextApiRequest,res:NextApiResponse){
-
-// }

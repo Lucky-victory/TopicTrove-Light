@@ -8,13 +8,14 @@ import {
 } from "@/lib/api-utils";
 import { NextApiRequest, NextApiResponse } from "next";
 import dotenv from "dotenv";
+import { IS_DEV } from "@/lib/utils";
 dotenv.config();
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  mainHandler(req, res, {
+  return mainHandler(req, res, {
     GET,
     POST,
   });
@@ -45,7 +46,6 @@ export const POST: HTTP_METHOD_CB = async (
     }
 
     const insert = await db.insert(posts).values({ ...rest, status });
-    console.log(insert);
 
     return await successHandlerCallback(
       req,
@@ -56,15 +56,9 @@ export const POST: HTTP_METHOD_CB = async (
       201,
     );
   } catch (error: any) {
-    console.log(error);
     return await errorHandlerCallback(req, res, {
       message: "An error occured",
+      error: IS_DEV ? { ...error } : null,
     });
   }
 };
-// export function PUT(req:NextApiRequest,res:NextApiResponse){
-
-// }
-// export function DELETE(req:NextApiRequest,res:NextApiResponse){
-
-// }

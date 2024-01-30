@@ -17,7 +17,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  mainHandler(req, res, {
+  return mainHandler(req, res, {
     GET,
     POST,
   });
@@ -36,17 +36,29 @@ export const GET: HTTP_METHOD_CB = async (
     } else {
       slugOrId = idOrSlug;
     }
+    // console.log({ s: +idOrSlug, slugOrId });
 
-    const response = await db
-      .select()
-      .from(posts)
-      .where(
-        or(
-          eq(posts.slug, slugOrId as string),
-          eq(posts.id, slugOrId as number),
-        ),
-      );
-    const post = response[0];
+    const post = await db.query.posts.findFirst({
+      where: or(
+        eq(posts.slug, slugOrId as string),
+        eq(posts.id, slugOrId as number),
+      ),
+      columns: {
+        userId: false,
+      },
+      with: {
+        author: {
+          columns: {
+            avatar: true,
+            fullName: true,
+            firstName: true,
+            isVerified: true,
+            id: true,
+            username: true,
+          },
+        },
+      },
+    });
 
     if (isEmpty(post)) {
       return await successHandlerCallback(
