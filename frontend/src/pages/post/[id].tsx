@@ -17,11 +17,15 @@ import {
     WrapItem,
     Stack,
     HStack,
+    Button,
+    Link,
 } from "@chakra-ui/react";
 
 import React from "react";
 import {format} from 'date-fns'
 import MarkdownRenderer from "@/components/MarkDownRenderer";
+import MatIcon from "@/components/MatIcon";
+import { FacebookIcon, LinkedINIcon, TwitterIcon, miniTwitterIcon } from "@/components/SocialIcon";
 const post = {
     title: "The Astonishing Origins of 6 Common Compound Words",
     intro:'The 1989 Mill Valley Film Festival, in association with the Hanson Gallery in neighboring Sausalito, installed an exhibition of my portraits, including movie directors, actors, and writers. I was billed as a “Featured Artist”',
@@ -87,16 +91,19 @@ const Post = () => {
                             {/* <Divider mt={5} mb={2} orientation="horizontal" /> */}
                         </Box>
 
-                        <HStack
+                     <HStack
                         borderY={'1px'} borderColor={'blackTrans-5'}
                             display={"flex"}
                             mt={2}
-                        py={2}
+                            py={2}
                             alignItems={"flex-start"}
                             gap={"20px"}
-                            alignSelf={"stretch"}
-                        >
-                            <Avatar
+                            alignSelf={"stretch"} 
+                            justifyContent={'space-between'}
+                            >
+                            
+                           <Flex m={1} gap={5} >
+                           <Avatar
                                  size="lg"
                             name={post.author.name}
                             src={post.author.avatar}
@@ -104,38 +111,58 @@ const Post = () => {
                             <Stack
                                 display={"flex"}
                                 flexDirection={"column"}
-                                alignItems={"flex-start"}
                                 gap={"7px"}
                             >
+                                <HStack>
                                 <Text
                                     fontWeight={500}
                                     lineHeight={"normal"}
                                     fontSize={"20px"}
                                 >
-                                    {post.author.name}
+                                    {post.author.name} 
                                 </Text>
-<HStack gap={2}>
 
-                                <Text as={'span'}
-                                    color="#636566"
-                                    fontWeight={400}
-                                    lineHeight={"normal"}
-                                    fontSize={"16px"}
-                                    >
-                                    {post.readTime} min read{" "}
+                                <Box as={MatIcon} name="verified"  />
+                                <Button  fontWeight={500} _hover={'none'} fontSize={'14px'} h={'27px'} color={'black'} borderRadius={'20px'} border={'1px solid black'} background={'transparent'}>
+                                <MatIcon name="done"  size={24}/> {' '} Following
+                                </Button>
+                                </HStack>
+                                
+                                <HStack gap={2}>
 
-                                    </Text>
-                                    <CircleIcon
-                                    
-                                    color={"#636566"}
-                                    boxSize={1.5}
-                                    />{" "}
-                                    <Text as={'span'}>
-                                    {format(post.createdAt,'MMM dd yyyy')}
-                                </Text>
-                                    </HStack>
+                        <Text as={'span'}
+                            color="#636566"
+                            fontWeight={400}
+                            lineHeight={"normal"}
+                            fontSize={"16px"}
+                            >
+                            {post.readTime} min read{" "}
+
+                            </Text>
+                            <CircleIcon
+                            
+                            color={"#636566"}
+                            boxSize={1.5}
+                            />{" "}
+                            <Text as={'span'}>
+                            {format(post.createdAt,'MMM dd yyyy')}
+                        </Text>
+                                </HStack>
                             </Stack>
+                           </Flex>
+
+                            <Box display={'flex'}  flexDirection={'column'} p={'4px 0px'} alignItems={'flex-start'} gap={'6px'} >
+                                <Text fontSize={'18px'} fontWeight={500}>Share this post on</Text>
+                                <Flex gap={'9px'}>
+                                <Link>{LinkedINIcon}</Link>
+                                <Link>{FacebookIcon}</Link>
+                                <Link>{TwitterIcon}</Link>
+                                </Flex>
+                                </Box>
                         </HStack>
+
+                       
+
                         {/* <Divider orientation="horizontal" /> */}
                     </Box>
             
@@ -161,27 +188,87 @@ const Post = () => {
                 <Box maxW={'1100px'} mx={'auto'} px={6} pt={6} mt={20}
                 pb={24} bg={'blackTrans-2'}
                 >
-                    <Box
+                    <Box borderY={'1px'} borderColor={'blackTrans-5'}
                         display={"inline-flex"}
                         flexDirection={"column"}
                         alignItems={"flex-start"}
                         gap={"10px"}
                         padding={"2px 79px 35px 0px"}
                     >
-                        <Avatar
-                            flexShrink={0}
-                            size="lg"
+                         <Text color={"black"} fontSize={24} fontWeight={600}>
+                            Written By
+                        </Text>
+                       
+                        <HStack
+                        
+                            display={"flex"}
+                            mt={2}
+                            py={2}
+                            alignItems={"flex-start"}
+                            gap={"20px"}
+                            justifyContent={'space-between'}
+                            >
+                                                          
+                           <Flex m={1} gap={5} >
+                           <Avatar
+                                 size="lg"
                             name={post.author.name}
                             src={post.author.avatar}
-                        />
-                        {/* {" "} */}
-                        <Text color={"black"} fontSize={24} fontWeight={600}>
-                            Written By {post.author.name}
-                        </Text>
-                        <Text color={"#636566"} fontWeight={400} fontSize={16}>
-                            {post.author.shortBio}
-                            
-                        </Text>
+                            />
+                            <Stack
+                                display={"flex"}
+                                flexDirection={"column"}
+                                gap={"7px"}
+                            >
+                                <HStack>
+                                <Text
+                                    fontWeight={500}
+                                    lineHeight={"normal"}
+                                    fontSize={"20px"}
+                                >
+                                    {post.author.name} 
+                                </Text>
+
+                                <Box as={MatIcon} name="verified"  />
+                                <Button  fontWeight={500} _hover={'none'} fontSize={'14px'} h={'27px'} color={'black'} borderRadius={'20px'} border={'1px solid black'} background={'transparent'}>
+                                <MatIcon name="done"  size={24}/> {' '} Following
+                                </Button>
+                                </HStack>
+                                
+                                <HStack gap={2}>
+
+                        <Text as={'span'}
+                            color="#636566"
+                            fontWeight={400}
+                            lineHeight={"normal"}
+                            fontSize={"16px"}
+                            >
+                           {post.author.shortBio}
+
+                            </Text>                            
+                        </HStack>
+                        <Flex gap={'9px'}>
+                                <Link>{LinkedINIcon}</Link>
+                                <Link>{FacebookIcon}</Link>
+                                <Link>{TwitterIcon}</Link>
+                                </Flex>
+                            </Stack>
+                           </Flex>
+
+                            <Box display={'flex'}  flexDirection={'column'} p={'10px 20px'} alignItems={'flex-start'} justifyContent={'flex-end'} gap={'16px'} >
+                                <Text fontSize={'22px'} fontWeight={600}>Say thanks to this author</Text>
+
+                                <HStack>
+                                <Button  w={'auto'} h={'31px'} display={'flex'} alignItems={'center'} gap={'6px'} border={'1px solid black'} borderRadius={'99px'}>
+                                        Tip a token
+                                    </Button>
+                                    <Button w={'auto'} h={'31px'} display={'flex'} alignItems={'center'} color={'black'} background={'white'} gap={'6px'} border={'1px solid black'} borderRadius={'99px'}>
+                                        Share on {miniTwitterIcon}
+                                    </Button>
+                                </HStack>
+                                
+                            </Box>
+                        </HStack>
                     </Box>
                 </Box>
             </Box>
