@@ -1,5 +1,5 @@
 import { db } from "@/db/db";
-import { posts } from "@/db/schema";
+import { follows, posts, users } from "@/db/schema";
 import {
   HTTP_METHOD_CB,
   errorHandlerCallback,
@@ -8,7 +8,7 @@ import {
 } from "@/lib/api-utils";
 import { NextApiRequest, NextApiResponse } from "next";
 import dotenv from "dotenv";
-import { desc, eq, gt, or } from "drizzle-orm";
+import { and, desc, eq, gt, or, sql } from "drizzle-orm";
 dotenv.config();
 import isEmpty from "just-is-empty";
 import { IS_DEV } from "@/lib/utils";
