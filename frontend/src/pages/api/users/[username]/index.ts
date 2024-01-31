@@ -1,5 +1,5 @@
 import { db } from "@/db/db";
-import { posts } from "@/db/schema";
+import { posts, users } from "@/db/schema";
 import {
   HTTP_METHOD_CB,
   errorHandlerCallback,
@@ -28,6 +28,8 @@ export const GET: HTTP_METHOD_CB = async (
   res: NextApiResponse,
 ) => {
   try {
+    //sample user
+    const userId = 1;
     let { id_or_slug: idOrSlug } = req.query;
     idOrSlug = idOrSlug as string;
     let slugOrId: number | string = "";
@@ -38,7 +40,7 @@ export const GET: HTTP_METHOD_CB = async (
     }
     // console.log({ s: +idOrSlug, slugOrId });
 
-    const post = await db.query.posts.findFirst({
+    const user = await db.query.posts.findFirst({
       where: or(
         eq(posts.slug, slugOrId as string),
         eq(posts.id, slugOrId as number),
@@ -60,26 +62,26 @@ export const GET: HTTP_METHOD_CB = async (
       },
     });
 
-    if (isEmpty(post)) {
+    if (isEmpty(user)) {
       return await successHandlerCallback(
         req,
         res,
         {
           message: `Post with '${idOrSlug}' does not exist`,
           data: {
-            ...post,
+            ...user,
           },
         },
         404,
       );
     }
     // update the views whenever a post is requested
-    await db.update(posts).set({ views: (post?.views as number) + 1 });
+    await db.update(posts).set({ views: (user?.views as number) + 1 });
 
     return await successHandlerCallback(req, res, {
       message: `Post retrieved successfully`,
       data: {
-        ...post,
+        ...user,
       },
     });
   } catch (error: any) {
@@ -94,19 +96,17 @@ export const PUT: HTTP_METHOD_CB = async (
   res: NextApiResponse,
 ) => {
   try {
-    const { status, ...rest } = req.body;
+    const { ...rest } = req.body;
+    //sample user
+    const userId = 1;
 
-    if (status === "DRAFT") {
-      await db.update(posts).set({ ...rest, status });
-      return await successHandlerCallback(req, res, {
-        message: "Draft saved successfully",
-      });
-    }
-
-    const update = await db.update(posts).set({ ...rest, status });
+    const update = await db
+      .update(users)
+      .set({ ...rest })
+      .where(eq(users.id, userId));
 
     return await successHandlerCallback(req, res, {
-      message: "Post updated successfully",
+      message: "Profile updated successfully",
     });
   } catch (error: any) {
     return await errorHandlerCallback(req, res, {
@@ -114,9 +114,3 @@ export const PUT: HTTP_METHOD_CB = async (
     });
   }
 };
-// export function PUT(req:NextApiRequest,res:NextApiResponse){
-
-// }
-// export function DELETE(req:NextApiRequest,res:NextApiResponse){
-
-// }

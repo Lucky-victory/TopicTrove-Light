@@ -1,5 +1,5 @@
 import { db } from "@/db/db";
-import { comments, posts } from "@/db/schema";
+import { comments, users } from "@/db/schema";
 
 import {
   mainHandler,
@@ -23,21 +23,13 @@ export const GET: HTTP_METHOD_CB = async (
   res: NextApiResponse,
 ) => {
   try {
-    let { id_or_slug: idOrSlug, page = 1 } = req.query;
+    let { id_or_slug: id, page = 1 } = req.query;
     const limit = 10;
     let offset = limit * (+page - 1);
-    idOrSlug = idOrSlug as string;
-    let slugOrId: number | string = "";
-    if (!Number.isNaN(+idOrSlug)) {
-      slugOrId = +idOrSlug;
-    } else {
-      slugOrId = idOrSlug;
-    }
+    const ID = parseInt(id as string);
+
     const response = await db.query.comments.findMany({
-      where: and(
-        eq(comments.postId, slugOrId as number),
-        eq(comments.status, "APPROVED"),
-      ),
+      where: and(eq(comments.postId, ID), eq(comments.status, "APPROVED")),
       limit,
       columns: {
         status: false,

@@ -33,14 +33,16 @@ export const GET: HTTP_METHOD_CB = async (
     filterCount -  the limit of posts to retrieve for that filter
     count - the limit of posts to retrieve for non-filter
      */
-    let { filter, filterCount = 4, count = 6 } = req.query;
-
+    let { filter, filterCount = 4, count = 6, page = 1 } = req.query;
+    const limit = +count;
+    let offset = limit * (+page - 1);
     let response;
     if (!isEmpty(filter) && filter == "trend") {
       response = await db.query.posts.findMany({
         columns: {
           userId: false,
         },
+        offset,
         with: {
           author: {
             columns: {
@@ -81,7 +83,7 @@ export const GET: HTTP_METHOD_CB = async (
       },
       where: eq(posts.status, "PUBLISHED"),
       orderBy: desc(posts.createdAt),
-      limit: !isEmpty(count) ? 0 : +count,
+      limit,
     });
     return await successHandlerCallback(req, res, {
       message: `Posts retrieved successfully`,
