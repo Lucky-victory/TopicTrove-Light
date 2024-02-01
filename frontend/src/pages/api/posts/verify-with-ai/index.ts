@@ -20,7 +20,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  mainHandler(req, res, {
+ return mainHandler(req, res, {
     GET,
     POST,
   });

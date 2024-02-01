@@ -52,3 +52,31 @@ export async function mainHandler(
       return res.status(405).end();
   }
 }
+
+/*
+ *   // query to select followers of a user
+    const userId = 1;
+    await db
+      .select()
+      .from(users)
+      .leftJoin(follows, eq(users.id, follows.followerId))
+      .where(eq(follows.followingId, userId));
+
+    // query to select followings of a user
+    await db
+      .select()
+      .from(users)
+      .leftJoin(follows, eq(users.id, follows.followingId))
+      .where(eq(follows.followerId, userId));
+
+    // check if users are following themselves
+    const userAId = 1;
+    const userBId = 2;
+    const isFollowing = await db
+      .select({ isFollowing: sql`SELECT 1`})
+      .from(follows)
+      .where(
+        and(eq(follows.followerId, userAId), eq(follows.followingId, userBId)),
+      )
+      .as("isFollowing");
+ */
