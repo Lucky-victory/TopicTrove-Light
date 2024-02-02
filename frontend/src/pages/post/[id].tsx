@@ -42,9 +42,10 @@ const post = {
     "https://images.unsplash.com/photo-1682685797660-3d847763208e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   createdAt: new Date(),
   author: {
+    isVerified: true,
     avatar:
       "https://images.unsplash.com/photo-1564564244660-5d73c057f2d2?q=80&w=1476&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    name: "Mark Andre",
+    fullName: "Mark Andre",
     shortBio: "Hey there, I’m mark, ex-techinal writer at Meta",
   },
 };
@@ -62,7 +63,7 @@ const Post = () => {
     <>
       <HeaderNav bg="transparent" />
       <Box as="main">
-        <Box maxW={"1350px"} marginX={"auto"} px={{ lg: 8, base: 4 }}>
+        <Box maxW={"1350px"} marginX={"auto"} px={{ lg: 6, base: 4 }}>
           <Box
             display={"flex"}
             flexDirection={"column"}
@@ -78,7 +79,7 @@ const Post = () => {
             // ml={"170px"}
           >
             <Heading
-              fontSize={"40px"}
+              fontSize={{ base: "4xl", lg: "40px" }}
               fontWeight={700}
               lineHeight={"normal"}
               maxW={"1000px"}
@@ -102,41 +103,49 @@ const Post = () => {
             maxW={"1100px"}
             mx={"auto"}
             borderY={"1px"}
-            borderColor={"blackTrans-5"}
-            display={"flex"}
+            borderColor={"blackTrans-15"}
+            wrap={"wrap"}
             my={2}
+            mb={6}
             py={2}
             alignItems={"flex-start"}
             gap={"20px"}
             alignSelf={"stretch"}
             justifyContent={"space-between"}
           >
-            <Flex m={1} gap={5}>
+            <Flex m={1} gap={5} wrap={"wrap"}>
               <Avatar
                 size="lg"
-                name={post.author.name}
+                name={post.author.fullName}
                 src={post.author.avatar}
               />
-              <Stack display={"flex"} flexDirection={"column"} gap={"7px"}>
+              <Stack
+                // display={"flex"}
+                // flexDirection={"column"}
+                gap={"7px"}
+                wrap={"wrap"}
+              >
                 <HStack>
                   <Text
                     fontWeight={500}
                     lineHeight={"normal"}
                     fontSize={"20px"}
                   >
-                    {post.author.name}
+                    {post.author.fullName}
                   </Text>
-
-                  <Box as={MatIcon} name="verified" />
+                  {post.author.isVerified && (
+                    <MatIcon name="verified" bold filled color="blue" />
+                  )}
                   <Button
                     fontWeight={500}
                     fontSize={"14px"}
+                    gap={"6px"}
                     h={"27px"}
-                    variant={"outline"}
+                    // variant={"outline"}
                     size={"sm"}
                     rounded={"full"}
                   >
-                    <MatIcon name="done" size={24} /> Following
+                    <MatIcon name="add" size={24} bold /> Follow
                   </Button>
                 </HStack>
 
@@ -165,7 +174,7 @@ const Post = () => {
               alignItems={"flex-start"}
               gap={"6px"}
             >
-              <Text fontSize={"18px"} fontWeight={500}>
+              <Text fontSize={"large"} fontWeight={500}>
                 Share this post on
               </Text>
               <Flex gap={"9px"}>
@@ -190,7 +199,13 @@ const Post = () => {
           />
         </Box>
 
-        <Box as="section" maxW="1100px" mx="auto" my={6}>
+        <Box
+          as="section"
+          maxW="1100px"
+          mx="auto"
+          my={6}
+          px={{ lg: 6, base: 4 }}
+        >
           <MarkdownRenderer markdown={post.content} />
         </Box>
 
@@ -228,28 +243,34 @@ const Post = () => {
 
         <Box
           maxW={"1100px"}
+          px={{ lg: 6, base: 4 }}
           mx={"auto"}
-    
           //   px={6}
-          mt={5}
+          mt={10}
           py={6}
           //   bg={"blackTrans-2"}
         >
           <Box
             borderY={"1px"}
-            borderColor={"blackTrans-5"}
+            borderColor={"blackTrans-15"}
             gap={"10px"}
-            padding={"2px 79px 35px 0px"}
+            py={5}
           >
             <Text color={"black"} fontSize={24} fontWeight={600}>
               Written By
             </Text>
 
-            <HStack mt={2} py={2} justify={"space-between"} gap={"20px"}>
-              <Flex m={1} gap={5}>
+            <HStack
+              mt={2}
+              py={2}
+              justify={"space-between"}
+              gap={"20px"}
+              wrap={"wrap"}
+            >
+              <Flex m={1} gap={5} wrap={"wrap"}>
                 <Avatar
                   size="lg"
-                  name={post.author.name}
+                  name={post.author.fullName}
                   src={post.author.avatar}
                 />
                 <Stack gap={"7px"}>
@@ -259,22 +280,21 @@ const Post = () => {
                       lineHeight={"normal"}
                       fontSize={"20px"}
                     >
-                      {post.author.name}
+                      {post.author.fullName}
                     </Text>
-
-                    <Box as={MatIcon} name="verified" bold />
+                    {post.author.isVerified && (
+                      <MatIcon name="verified" bold filled color="blue" />
+                    )}
                     <Button
                       fontWeight={500}
-                      //   _hover={"none"}
                       fontSize={"14px"}
                       h={"27px"}
-                      variant={"outline"}
-                      //   borderRadius={"20px"}
-                      //   border={"1px solid black"}
-                      //   background={"transparent"}
+                      size={"sm"}
+                      // variant={"outline"}
+                      gap={"6px"}
                       rounded={"full"}
                     >
-                      <MatIcon name="done" size={24} /> Following
+                      <MatIcon name="add" size={24} bold /> Follow
                     </Button>
                   </HStack>
 
@@ -297,8 +317,8 @@ const Post = () => {
                 </Stack>
               </Flex>
 
-              <Stack p={"10px 20px"} gap={"16px"}>
-                <Text fontSize={"22px"} fontWeight={600}>
+              <Stack gap={"16px"}>
+                <Text fontSize={"large"} fontWeight={600}>
                   Say thanks to this author
                 </Text>
 

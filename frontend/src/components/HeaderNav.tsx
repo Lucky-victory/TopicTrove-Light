@@ -1,4 +1,4 @@
-import { Button, Flex,Box } from "@chakra-ui/react";
+import { Button, Flex, Box } from "@chakra-ui/react";
 import Logo from "./Logo";
 import Nav from "./Nav";
 // import { ConnectKitButton } from "connectkit";
@@ -7,6 +7,7 @@ import {
   connectorsForWallets,
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
+import { CustomConnectButton } from "./CustomConnectButton";
 interface HeaderProps {
   bg?: string;
 }
@@ -23,14 +24,12 @@ export default function HeaderNav<HeaderProps>({ bg = "appGreen" }) {
       justify={"space-between"}
     >
       <Logo />
-      <Box display={{'base':'none',lg:'block',md:'block'}}>
-      <Nav />
+      <Box display={{ base: "none", lg: "block", md: "block" }}>
+        <Nav />
       </Box>
       <Flex>
-        {/* <Button rounded={"full"} size={"lg"}>
-         <ConnectKitButton />
-        </Button> */}
-        <ConnectButton/>
+        <CustomConnectButton />
+        {/* <ConnectButton /> */}
       </Flex>
     </Flex>
   );
