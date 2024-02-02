@@ -149,6 +149,7 @@ export const follows = mysqlTable(
 export const userRelations = relations(users, ({ many, one }) => ({
   posts: many(posts),
   comments: many(comments),
+  interests:many(userInterests),
   prompts: many(prompts),
   likes: many(postLikes),
   promptsMeta: many(promptsMeta),

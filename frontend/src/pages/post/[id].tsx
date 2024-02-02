@@ -229,7 +229,7 @@ const Post = () => {
         <Box
           maxW={"1100px"}
           mx={"auto"}
-          bg="blue"
+    
           //   px={6}
           mt={5}
           py={6}

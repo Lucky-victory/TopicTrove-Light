@@ -1,0 +1,1 @@
+export type POST_STATUS = "PUBLISHED" | "DELETED" | "DRAFT";
