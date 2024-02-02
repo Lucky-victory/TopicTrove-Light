@@ -32,6 +32,7 @@ export const users = mysqlTable(
     updatedAt: timestamp("updated_at"),
   },
   (table) => ({
+    fullnameIdx: index("full_name_idx").on(table.fullName),
     usernameIdx: uniqueIndex("username_idx").on(table.username),
     emailIdx: uniqueIndex("email_idx").on(table.email),
   }),
@@ -46,6 +47,12 @@ export const userMeta = mysqlTable("user_meta", {
   payPerPost: int("pay_per_post"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at"),
+});
+export const userInterests = mysqlTable("user_interests", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("user_id"),
+  text: varchar("text", { length: 256 }).notNull().unique(),
+  createdAt: timestamp("created_at").defaultNow(),
 });
 
 export const posts = mysqlTable(
