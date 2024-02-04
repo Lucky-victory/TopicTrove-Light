@@ -23,9 +23,41 @@ export function calculateReadTime(content: string) {
   return readTimeMinutes;
 }
 
-// Example usage
-const postContent =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ..."; // Your actual post content here
-const readTime = calculateReadTime(postContent);
+export function convertCamelCaseToSpace<T extends object>(obj: T) {
+  const resultArray = [];
 
-console.log(`Estimated read time: ${readTime} minute(s)`);
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      // Convert camelCase to space-separated keys
+      const spacedKey = key.replace(/([a-z])([A-Z])/g, "$1 $2");
+      const formattedKey =
+        spacedKey.charAt(0).toUpperCase() + spacedKey.slice(1);
+
+      const keyString = `${formattedKey}`;
+
+      resultArray.push(keyString);
+    }
+  }
+
+  return resultArray;
+}
+export const shortenText = (text: string, len = 50) => {
+  if (text.length > len) return text.substring(0, len) + "...";
+  return text.substring(0, len);
+};
+export function removeKeyFromObject<T extends object>(
+  arr: T[],
+  keysToRemove: (keyof T)[] = [],
+) {
+  return arr.map((obj) => {
+    const newObj: Record<string, any> = {};
+
+    Object.keys(obj).forEach((key) => {
+      if (!keysToRemove.includes(key as keyof T)) {
+        newObj[key] = obj[key as keyof T];
+      }
+    });
+
+    return newObj as T;
+  });
+}
