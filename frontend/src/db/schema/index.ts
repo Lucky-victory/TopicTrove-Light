@@ -11,6 +11,7 @@ import {
   boolean,
   index,
   binary,
+  primaryKey,
 } from "drizzle-orm/mysql-core";
 
 export const users = mysqlTable(
@@ -31,6 +32,7 @@ export const users = mysqlTable(
     updatedAt: timestamp("updated_at"),
   },
   (table) => ({
+    fullnameIdx: index("full_name_idx").on(table.fullName),
     usernameIdx: uniqueIndex("username_idx").on(table.username),
     emailIdx: uniqueIndex("email_idx").on(table.email),
   }),
@@ -38,11 +40,19 @@ export const users = mysqlTable(
 
 export const userMeta = mysqlTable("user_meta", {
   id: int("id").primaryKey().autoincrement(),
-  userId: int("user_id"),
+  userId: int("user_id")
+    .notNull()
+    .references(() => users.id),
   amountEarned: int("amount_earned").default(0),
   payPerPost: int("pay_per_post"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at"),
+});
+export const userInterests = mysqlTable("user_interests", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("user_id"),
+  text: varchar("text", { length: 256 }).notNull().unique(),
+  createdAt: timestamp("created_at").defaultNow(),
 });
 
 export const posts = mysqlTable(
@@ -52,7 +62,9 @@ export const posts = mysqlTable(
     title: varchar("title", { length: 256 }).notNull(),
     intro: text("intro"),
     content: text("content").notNull(),
-    userId: int("user_id").notNull(),
+    userId: int("user_id")
+      .notNull()
+      .references(() => users.id),
     slug: varchar("slug", { length: 256 }).unique().notNull(),
     views: int("views").default(0),
     readTime: int("read_time"),
@@ -82,12 +94,7 @@ export const comments = mysqlTable("comments", {
   updatedAt: timestamp("updated_at"),
   status: mysqlEnum("status", ["APPROVED", "PENDING"]),
 });
-export const commentsRelations = relations(comments, ({ one }) => ({
-  post: one(posts, {
-    fields: [comments.postId],
-    references: [posts.id],
-  }),
-}));
+
 export const prompts = mysqlTable(
   "prompts",
   {
@@ -105,6 +112,8 @@ export const prompts = mysqlTable(
       "ACCEPTED",
       "DECLINED",
     ]),
+    // slug: varchar("slug", { length: 256 }),
+    // views: int("views"),
     createdAt: timestamp("created_at").defaultNow(),
     updatedAt: timestamp("updated_at"),
   },
@@ -126,7 +135,17 @@ export const promptsMeta = mysqlTable("prompts_meta", {
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at"),
 });
-
+export const follows = mysqlTable(
+  "follows",
+  {
+    followerId: int("follower_id").notNull(),
+    followingId: int("following_id").notNull(),
+    createdAt: timestamp("created_at").defaultNow(),
+  },
+  (table) => ({
+    pk: primaryKey({ columns: [table.followerId, table.followingId] }),
+  }),
+);
 export const userRelations = relations(users, ({ many, one }) => ({
   posts: many(posts),
   comments: many(comments),
@@ -137,6 +156,9 @@ export const userRelations = relations(users, ({ many, one }) => ({
     fields: [users.id],
     references: [userMeta.userId],
   }),
+
+  followers: many(follows, { relationName: "followers" }),
+  following: many(follows, { relationName: "following" }),
 }));
 export const postRelations = relations(posts, ({ many, one }) => ({
   author: one(users, {
@@ -176,6 +198,16 @@ export const promptMetaRelations = relations(promptsMeta, ({ many, one }) => ({
   }),
   author: one(users, {
     fields: [promptsMeta.userId],
+    references: [users.id],
+  }),
+}));
+export const commentsRelations = relations(comments, ({ one }) => ({
+  post: one(posts, {
+    fields: [comments.postId],
+    references: [posts.id],
+  }),
+  author: one(users, {
+    fields: [comments.authorId],
     references: [users.id],
   }),
 }));

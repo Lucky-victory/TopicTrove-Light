@@ -1,5 +1,5 @@
 import { db } from "@/db/db";
-import { posts } from "@/db/schema";
+import { users, prompts } from "@/db/schema";
 import {
   HTTP_METHOD_CB,
   errorHandlerCallback,
@@ -28,25 +28,26 @@ export const GET: HTTP_METHOD_CB = async (
   res: NextApiResponse,
 ) => {
   try {
-    let { id_or_slug: idOrSlug } = req.query;
-    idOrSlug = idOrSlug as string;
-    let slugOrId: number | string = "";
-    if (!Number.isNaN(+idOrSlug)) {
-      slugOrId = +idOrSlug;
-    } else {
-      slugOrId = idOrSlug;
-    }
-    // console.log({ s: +idOrSlug, slugOrId });
+    let { id } = req.query;
 
-    const post = await db.query.posts.findFirst({
-      where: or(
-        eq(posts.slug, slugOrId as string),
-        eq(posts.id, slugOrId as number),
-      ),
+    const promptId = +(id as string);
+    const prompt = await db.query.prompts.findFirst({
+      where: eq(prompts.id, promptId),
+
       columns: {
         userId: false,
       },
       with: {
+        meta: true,
+        postWriter: {
+          columns: {
+            fullName: true,
+            username: true,
+            id: true,
+            isVerified: true,
+            firstName: true,
+          },
+        },
         author: {
           columns: {
             avatar: true,
@@ -60,27 +61,23 @@ export const GET: HTTP_METHOD_CB = async (
       },
     });
 
-    if (isEmpty(post)) {
+    if (isEmpty(prompt)) {
       return await successHandlerCallback(
         req,
         res,
         {
-          message: `Post with '${idOrSlug}' does not exist`,
-          data: {
-            ...post,
-          },
+          message: `Prompt with '${id}' does not exist`,
+          data: prompt,
         },
         404,
       );
     }
-    // update the views whenever a post is requested
-    await db.update(posts).set({ views: (post?.views as number) + 1 });
+    // update the views whenever a prompt is requested
+    // await db.update(posts).set({ views: (prompt?.views as number) + 1 });
 
     return await successHandlerCallback(req, res, {
-      message: `Post retrieved successfully`,
-      data: {
-        ...post,
-      },
+      message: `Prompt retrieved successfully`,
+      data: prompt,
     });
   } catch (error: any) {
     return await errorHandlerCallback(req, res, {
@@ -97,26 +94,21 @@ export const PUT: HTTP_METHOD_CB = async (
     const { status, ...rest } = req.body;
 
     if (status === "DRAFT") {
-      await db.update(posts).set({ ...rest, status });
+      await db.insert(users).values({ ...rest, status });
       return await successHandlerCallback(req, res, {
         message: "Draft saved successfully",
       });
     }
 
-    const update = await db.update(posts).set({ ...rest, status });
+    const insert = await db.insert(users).values({ ...rest, status });
 
     return await successHandlerCallback(req, res, {
-      message: "Post updated successfully",
+      message: "Post created successfully",
     });
   } catch (error: any) {
+    console.log(error);
     return await errorHandlerCallback(req, res, {
       message: "An error occured",
     });
   }
 };
-// export function PUT(req:NextApiRequest,res:NextApiResponse){
-
-// }
-// export function DELETE(req:NextApiRequest,res:NextApiResponse){
-
-// }
