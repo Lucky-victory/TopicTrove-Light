@@ -1,3 +1,6 @@
+import { db } from "@/db/db";
+import { users } from "@/db/schema";
+import { eq, or } from "drizzle-orm";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export async function successHandlerCallback<T>(
@@ -80,3 +83,18 @@ export async function mainHandler(
       )
       .as("isFollowing");
  */
+export const getUserFromDB = async (usernameOrId: string | number,columns={}) => {
+  try {
+    
+    const user = await db.query.users.findFirst({
+      where: or(
+        eq(users.username, usernameOrId as string),
+        eq(users.id, usernameOrId as number),
+      ),
+      
+    });
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
