@@ -13,6 +13,7 @@ dotenv.config();
 import isEmpty from "just-is-empty";
 import { IS_DEV } from "@/lib/utils";
 
+const MAX_LOCKED_CONTENT_LENGTH = 200;
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
@@ -75,6 +76,11 @@ export const GET: HTTP_METHOD_CB = async (
     }
     // update the views whenever a post is requested
     await db.update(posts).set({ views: (post?.views as number) + 1 });
+
+    //if the posts is locked, return only a some of the post content.
+    if (post?.isLocked) {
+      post.content = post.content.substring(0, MAX_LOCKED_CONTENT_LENGTH);
+    }
 
     return await successHandlerCallback(req, res, {
       message: `Post retrieved successfully`,

@@ -54,3 +54,20 @@ export const GET: HTTP_METHOD_CB = async (
     });
   } catch (error: any) {}
 };
+export const POST: HTTP_METHOD_CB = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+) => {
+  try {
+    let { id_or_slug: id } = req.query;
+    const body = req.body;
+    const ID = parseInt(id as string);
+
+    const response = await db.insert(comments).values({ postId: ID, ...body });
+
+    return await successHandlerCallback(req, res, {
+      message: "Comment added successfully",
+      data: response,
+    });
+  } catch (error: any) {}
+};

@@ -3,23 +3,38 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-  --icon-size:48
+  --dash-sidebar-w: 240px;
+  --icon-size: 48;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
   }
 }
-
-
+body {
+  width: 100vw;
+  overflow-x: hidden;
+}
 .material-symbols-outlined {
-  font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' var(--icon-size);
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 200,
+    "GRAD" 0,
+    "opsz" var(--icon-size);
+}
+.material-symbols-outlined.bold {
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 500,
+    "GRAD" 0,
+    "opsz" var(--icon-size);
+}
+.material-symbols-outlined.fill {
+  font-variation-settings:
+    "FILL" 1,
+    "wght" 200,
+    "GRAD" 0,
+    "opsz" var(--icon-size);
 }
 .post-title-section {
   width: 100vw;
@@ -27,13 +42,10 @@
   margin-top: 2rem;
   flex-direction: column;
   max-height: 50rem;
-
 }
 
 .post-image {
-
   margin-top: 4.5rem;
-
 }
 
 .post-content {
@@ -44,6 +56,4 @@
   justify-content: center;
   align-items: center;
   text-wrap: balance;
-
-
 }
