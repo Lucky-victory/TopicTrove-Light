@@ -26,20 +26,23 @@ export function calculateReadTime(content: string) {
 export function convertCamelCaseToSpace<T extends object>(obj: T) {
   const resultArray = [];
 
-  for (const key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      // Convert camelCase to space-separated keys
-      const spacedKey = key.replace(/([a-z])([A-Z])/g, "$1 $2");
-      const formattedKey =
-        spacedKey.charAt(0).toUpperCase() + spacedKey.slice(1);
+  return Object.keys(obj)
 
-      const keyString = `${formattedKey}`;
+    .map((key) => {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        // Convert camelCase to space-separated keys
+        const spacedKey = key.replace(/([a-z])([A-Z])/g, "$1 $2");
+        const formattedKey =
+          spacedKey.charAt(0).toUpperCase() + spacedKey.slice(1);
 
-      resultArray.push(keyString);
-    }
-  }
+        const keyString = `${formattedKey}`;
 
-  return resultArray;
+        return keyString;
+        // resultArray.push(keyString);
+      }
+    });
+
+  // return resultArray;
 }
 export const shortenText = (text: string, len = 50) => {
   if (text.length > len) return text.substring(0, len) + "...";

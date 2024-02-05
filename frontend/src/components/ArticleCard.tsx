@@ -12,7 +12,7 @@ export default function ArticleCard({ article }: { article: any }) {
     >
       <Box>
         <Heading mb={2} as={"h3"} size={"md"}>
-          <Link href={`/${article.author?.usename}/${article?.slug}`}>
+          <Link href={`/${article.author?.username}/${article?.slug}`}>
             {article?.title}
           </Link>
         </Heading>
