@@ -33,7 +33,9 @@ export const GET: HTTP_METHOD_CB = async (
     const limit = +count;
     let offset = limit * (+page - 1);
     let response;
- const { id: userId } = (await getUserFromDB(1)) as typeof users.$inferSelect;
+    const { id: userId } = (await getUserFromDB(
+      1,
+    )) as typeof users.$inferSelect;
     response = await db.query.posts.findMany({
       offset,
       with: {

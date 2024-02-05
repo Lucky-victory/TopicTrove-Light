@@ -28,7 +28,7 @@ export default function NewPostPage() {
   });
   const [imageFile, setImageFile] = useState<Blob>();
   const [submitting, setSubmitting] = useState<boolean>(false);
-  const [contentValue, setContentValue] = useState("**Hello world!!!**");
+  const [contentValue, setContentValue] = useState("");
   const [post, setPost] = useState({
     title: "",
     slug: "",
@@ -138,7 +138,7 @@ export default function NewPostPage() {
             pos={"sticky"}
             top={0}
             zIndex={10}
-            // bg={"white"}
+            bg={"white"}
             justifyContent={"flex-end"}
             py={3}
             my={4}
