@@ -3,27 +3,16 @@ import "@/styles/globals.css";
 import "material-symbols/outlined.css";
 import type { AppProps } from "next/app";
 import {
-  ConnectButton,
   connectorsForWallets,
   RainbowKitProvider,
   darkTheme,
 } from "@rainbow-me/rainbowkit";
-import { WagmiConfig, createConfig, configureChains } from "wagmi";
-import {
-  ConnectKitProvider,
-  ConnectKitButton,
-  getDefaultConfig,
-} from "connectkit";
+import { WagmiConfig, createConfig } from "wagmi";
+import { getDefaultConfig } from "connectkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import { rainbowWeb3AuthConnector } from "../components/RainbowWeb3AuthConnector";
-import { mainnet, polygon, optimism, arbitrum, base, zora } from "wagmi/chains";
 import { rainbowWallet, metaMaskWallet } from "@rainbow-me/rainbowkit/wallets";
-import { publicProvider } from "wagmi/providers/public";
-
-const { chains, publicClient } = configureChains(
-  [mainnet, polygon, optimism, arbitrum, base, zora],
-  [publicProvider()],
-);
+import { chains, publicClient } from "@/lib/wagmi-config";
 
 const config = createConfig(
   getDefaultConfig({
@@ -31,7 +20,7 @@ const config = createConfig(
     alchemyId: process.env.ALCHEMY_ID, // or infuraId
     walletConnectProjectId: process.env.WALLETCONNECT_PROJECT_ID as string,
     // Required
-    appName: "Your App Name",
+    appName: "Articulaa",
 
     // Optional
     appDescription: "Your App Description",

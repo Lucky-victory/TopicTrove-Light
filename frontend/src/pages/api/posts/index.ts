@@ -39,9 +39,9 @@ export const GET: HTTP_METHOD_CB = async (
     let response;
     if (!isEmpty(filter) && filter == "trend") {
       response = await db.query.posts.findMany({
-        columns: {
-          userId: false,
-        },
+        // columns: {
+        //   userId: false,
+        // },
         offset,
         with: {
           author: {
@@ -66,9 +66,9 @@ export const GET: HTTP_METHOD_CB = async (
     }
 
     response = await db.query.posts.findMany({
-      columns: {
-        userId: false,
-      },
+      // columns: {
+      //   userId: false,
+      // },
       with: {
         author: {
           columns: {

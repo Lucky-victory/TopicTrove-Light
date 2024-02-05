@@ -132,76 +132,81 @@ export default function NewPostPage() {
 
   return (
     <DashboardLayout>
-      <Flex
-        pos={"sticky"}
-        top={0}
-        zIndex={10}
-        bg={"white"}
-        justifyContent={"flex-end"}
-        py={2}
-        my={4}
-        px={4}
-        borderBottom={"1px"}
-        borderColor={"blackTrans-15"}
-      >
-        {" "}
-        <HStack gap={4}>
-          <Button
-            isLoading={submitting}
-            onClick={saveAsPublished}
-            rounded={"full"}
-            px={6}
+      <Box px={4} my={5}>
+        <Box bg={"white"} rounded={"14px"}>
+          <Flex
+            pos={"sticky"}
+            top={0}
+            zIndex={10}
+            // bg={"white"}
+            justifyContent={"flex-end"}
+            py={3}
+            my={4}
+            px={4}
+            borderBottom={"1px"}
+            borderColor={"blackTrans-15"}
           >
-            Publish{" "}
-          </Button>{" "}
-          <Button
-            isLoading={submitting}
-            onClick={saveAsDraft}
-            rounded={"full"}
-            variant={"outline"}
-          >
-            Save as draft
-          </Button>
-        </HStack>
-      </Flex>
-      <Stack px={4} py={6} gap={3}>
-        <DragAndDropImage
-          onUploadChange={(hasImage, files, image) =>
-            onImageChangeHandler(hasImage, files, image)
-          }
-        />
+            {" "}
+            <HStack gap={4}>
+              <Button
+                isLoading={submitting}
+                onClick={saveAsPublished}
+                rounded={"full"}
+                px={6}
+                size="md"
+              >
+                Publish{" "}
+              </Button>{" "}
+              <Button
+                isLoading={submitting}
+                onClick={saveAsDraft}
+                rounded={"full"}
+                variant={"outline"}
+              >
+                Save as draft
+              </Button>
+            </HStack>
+          </Flex>
+          <Stack px={4} py={6} gap={3}>
+            <DragAndDropImage
+              onUploadChange={(hasImage, files, image) =>
+                onImageChangeHandler(hasImage, files, image)
+              }
+            />
 
-        <Input
-          name="title"
-          value={post.title}
-          onChange={handleInputChange}
-          h={"auto"}
-          py={2}
-          placeholder="Post Title..."
-          fontSize={"x-large"}
-          fontWeight={"medium"}
-        />
-        <Textarea
-          name="intro"
-          value={post.intro}
-          onChange={handleInputChange}
-          my={4}
-          maxH={"200px"}
-          placeholder="A short introduction for the post..."
-        ></Textarea>
-        <Box py={4}>
-          <ReactMde
-            value={contentValue}
-            onChange={(value: string) => handleEditorChange(value)}
-            selectedTab={selectedTab}
-            onTabChange={setSelectedTab}
-            generateMarkdownPreview={(markdown) =>
-              Promise.resolve(<MarkdownRenderer markdown={markdown} />)
-            }
-          />
+            <Input
+              name="title"
+              value={post.title}
+              onChange={handleInputChange}
+              h={"auto"}
+              py={2}
+              placeholder="Post Title..."
+              fontSize={"x-large"}
+              fontWeight={"medium"}
+            />
+            <Textarea
+              name="intro"
+              value={post.intro}
+              onChange={handleInputChange}
+              my={4}
+              maxH={"200px"}
+              placeholder="A short introduction for the post..."
+            ></Textarea>
+            <Box py={4}>
+              <ReactMde
+                value={contentValue}
+                onChange={(value: string) => handleEditorChange(value)}
+                selectedTab={selectedTab}
+                onTabChange={setSelectedTab}
+                generateMarkdownPreview={(markdown) =>
+                  Promise.resolve(<MarkdownRenderer markdown={markdown} />)
+                }
+              />
+            </Box>
+            <Box></Box>
+          </Stack>
         </Box>
-        <Box></Box>
-      </Stack>
+      </Box>
     </DashboardLayout>
   );
 }
