@@ -1,0 +1,7 @@
+Deploying Contracts for LightLink....
+Deploying treasury for LightLink
+---- Treasury Contract was deployed to: ----  0x9E1eF5A92C9Bf97460Cd00C0105979153EA45b27
+Deploying platform contract for LightLink
+---- platform Contract for LightLink was deployed to LightLink testnet at this address: ----  0x3a65168B746766066288B83417329a7F901b5569
+Deploying AuthorVerificationBadge for LightLink....
+---- AuthorVerificationBadge Contract was deployed to: ----  0x6D919b8dC30BEf41b56Aa8b18b2052c9459F8E9A

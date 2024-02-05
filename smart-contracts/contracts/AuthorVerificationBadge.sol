@@ -30,7 +30,7 @@ contract AuthorVerificationBadge is ERC721, ERC721URIStorage, Ownable {
         _safeMint(to, tokenId);
         _setTokenURI(
             tokenId,
-            "https://bafybeiaovcphcjqf7y52v6e6bukooewlzkidopw6ntxllgrt6scfxeycci.ipfs.nftstorage.link/Badge.svg"
+            "https://ipfs.io/ipfs/bafkreihfweuclvhaozl7q6zsjjyrkh262vlbzqyd5m3lijrnjefh6pxy3i"
         );
         return tokenId;
     }
