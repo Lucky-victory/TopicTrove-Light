@@ -20,7 +20,9 @@ import {
   Box,
   Flex,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import axios from "axios";
+import { format } from "date-fns";
+import React, { useEffect, useState } from "react";
 
 export default function PostTable() {
   const [posts, setPosts] = useState([
@@ -122,6 +124,76 @@ export default function PostTable() {
     }
   };
 
+  async function fetchPosts() {
+    try {
+      const response = (await axios.get("/api/users/lucky-v/posts")).data;
+      const posts = response.data;
+      setPosts(posts);
+    } catch (error) {}
+  }
+  useEffect(() => {
+    fetchPosts();
+  });
+
+  function renderTableItems(dataItem: any) {
+    const keys = Object.keys(dataItem);
+    console.log({ keys });
+
+    return keys.reduce((acc, item) => {
+      switch (item) {
+        case "intro":
+          acc.push(
+            <Td>
+              <Text as={"span"} fontWeight={"medium"} fontSize={"14px"}>
+                {shortenText(dataItem.intro)}
+              </Text>
+            </Td>,
+          );
+
+        case "content":
+          acc.push(
+            <Td>
+              <Text as={"span"} fontWeight={"medium"} fontSize={"14px"}>
+                {shortenText(dataItem.content)}
+              </Text>
+            </Td>,
+          );
+        case "title":
+          acc.push(
+            <Td>
+              <Text as={"span"} fontWeight={"medium"} fontSize={"14px"}>
+                {shortenText(dataItem.title)}
+              </Text>
+            </Td>,
+          );
+        case "createdAt":
+          acc.push(
+            <Td>
+              <Text as={"span"} fontWeight={"medium"} fontSize={"14px"}>
+                {format(new Date(dataItem.createdAt), "MMM dd, yyyy hh:mm a")}
+              </Text>
+            </Td>,
+          );
+
+        case "status":
+          acc.push(
+            <Td color={statusColor(dataItem.status as POST_STATUS)}>
+              {dataItem.status}
+            </Td>,
+          );
+
+        default:
+          acc.push(
+            <Td>
+              <Text as={"span"} fontWeight={"medium"} fontSize={"14px"}>
+                {dataItem[item]}
+              </Text>
+            </Td>,
+          );
+      }
+      return acc;
+    }, [] as React.JSX.Element[]);
+  }
   return (
     <Flex bg={"white"} maxW={"full"} p={4}>
       <TableContainer>
@@ -139,17 +211,15 @@ export default function PostTable() {
           <Tbody className="files-table-body">
             {data.map((d, i) => (
               <Tr key={`data-${i}-${d.id}`} h={"45px"}>
-                <Td>{d.id}</Td>
+                {/* <Td>{d.id}</Td>
                 <Td>
-                  <HStack gap={"10px"}>
-                    <Text as={"span"} fontWeight={"medium"} fontSize={"16px"}>
-                      {shortenText(d.title)}
-                    </Text>
-                  </HStack>
+                  <Text as={"span"} fontWeight={"medium"} fontSize={"14px"}>
+                    {shortenText(d.title)}
+                  </Text>
                 </Td>
-                {/* <Td color={"appGray.500"}>{d.date}</Td> */}
-                {/* <Td fontWeight={"medium"}>{d.amount}</Td> */}
-                <Td color={statusColor(d.status as POST_STATUS)}>{d.status}</Td>
+                // 
+                <Td color={statusColor(d.status as POST_STATUS)}>{d.status}</Td> */}
+                {[...renderTableItems(d)]}
                 <Td>
                   <HStack>
                     <Button
