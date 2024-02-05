@@ -149,7 +149,7 @@ export default function PostTable() {
               </Text>
             </Td>,
           );
-
+          break;
         case "content":
           acc.push(
             <Td>
@@ -158,6 +158,7 @@ export default function PostTable() {
               </Text>
             </Td>,
           );
+          break;
         case "title":
           acc.push(
             <Td>
@@ -166,6 +167,7 @@ export default function PostTable() {
               </Text>
             </Td>,
           );
+          break;
         case "createdAt":
           acc.push(
             <Td>
@@ -174,22 +176,23 @@ export default function PostTable() {
               </Text>
             </Td>,
           );
-
+          break;
         case "status":
           acc.push(
             <Td color={statusColor(dataItem.status as POST_STATUS)}>
               {dataItem.status}
             </Td>,
           );
-
+          break;
         default:
           acc.push(
             <Td>
               <Text as={"span"} fontWeight={"medium"} fontSize={"14px"}>
-                {dataItem[item]}
+                {dataItem[item] + ""}
               </Text>
             </Td>,
           );
+          break;
       }
       return acc;
     }, [] as React.JSX.Element[]);
