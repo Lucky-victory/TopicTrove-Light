@@ -111,6 +111,12 @@ const config: HardhatUserConfig = {
       chainId: 43113,
       accounts: [`${process.env.PRIVATE_KEY}`],
     },
+       // for testnet
+   'lightlink-testnet': {
+    url: 'https://replicator.pegasus.lightlink.io/rpc/v1',
+    accounts: [`${process.env.PRIVATE_KEY}`],
+    gasPrice: 1000000000,
+  },
   },
   typechain: {
     target: "ethers-v5"
@@ -122,7 +128,8 @@ const config: HardhatUserConfig = {
       goerli: "1T7UC6DGWNA36AVHC4IGIRRE1MTGCSKE74" ?? "",
       arbitrumGoerli: "BWEYRFH5RWRPMMDNAG5WVMQGGEWRS754R6" ?? "",
       snowtrace: "snowtrace",
-      avalancheFujiTestnet: "snowtrace"
+      avalancheFujiTestnet: "snowtrace",
+      pegasus: "pegasus"
     },
     customChains: [
       {
@@ -132,7 +139,23 @@ const config: HardhatUserConfig = {
           apiURL: "https://api.routescan.io/v2/network/mainnet/evm/43114/etherscan",
           browserURL: "https://avalanche.routescan.io"
         }
-      }
+      },
+      {
+        network: 'pegasus',
+        chainId: 1891,
+        urls: {
+          apiURL: 'https://pegasus.lightlink.io/api',
+          browserURL: 'https://pegasus.lightlink.io',
+        },
+      },
+      {
+        network: 'devnet',
+        chainId: 88,
+        urls: {
+          apiURL: 'https://devnet.lightlink.io/api',
+          browserURL: 'https://devnet.lightlink.io',
+        },
+      },
     ] 
   },
 
