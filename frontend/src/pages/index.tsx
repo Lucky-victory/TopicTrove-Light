@@ -12,7 +12,7 @@ export default function Home() {
         <HeaderNav />
         <HeroSection />
         <Box mx={"auto"} maxW={"1350px"}>
-          <Connected />
+          {/* <Connected /> */}
           <TrendingPosts />
         </Box>
       </Box>
