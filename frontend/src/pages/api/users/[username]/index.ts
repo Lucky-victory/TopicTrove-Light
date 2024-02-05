@@ -12,6 +12,7 @@ import { count, eq, or } from "drizzle-orm";
 dotenv.config();
 import isEmpty from "just-is-empty";
 import { IS_DEV } from "@/lib/utils";
+import { web3AuthInstance } from "@/lib/wagmi-config";
 
 export default async function handler(
   req: NextApiRequest,
@@ -28,6 +29,7 @@ export const GET: HTTP_METHOD_CB = async (
   res: NextApiResponse,
 ) => {
   try {
+     console.log({ user: web3AuthInstance.getUserInfo() });
     //sample user
     const userId = 1;
     let { username } = req.query;
@@ -50,14 +52,7 @@ export const GET: HTTP_METHOD_CB = async (
         },
       },
     });
-    const followersCount = await db
-      .select({ value: count(follows.followerId) })
-      .from(follows)
-      .where(eq(follows.followerId, user?.id as number));
-    const followingsCount = await db
-      .select({ value: count(follows.followingId) })
-      .from(follows)
-      .where(eq(follows.followingId, user?.id as number));
+
     if (isEmpty(user)) {
       return await successHandlerCallback(
         req,
@@ -66,18 +61,36 @@ export const GET: HTTP_METHOD_CB = async (
           message: `user with '${username}' does not exist`,
           data: {
             ...user,
-            followersCount,
-            followingsCount,
           },
         },
         404,
       );
     }
-
+    const followersCount = (
+      await db
+        .select({ value: count(follows.followerId) })
+        .from(follows)
+        .where(eq(follows.followerId, user?.id as number))
+    ).reduce((acc, val) => {
+      acc = val.value;
+      return acc;
+    }, 0);
+    const followingsCount = (
+      await db
+        .select({ value: count(follows.followingId) })
+        .from(follows)
+        .where(eq(follows.followingId, user?.id as number))
+    ).reduce((acc, val) => {
+      acc = val.value;
+      return acc;
+    }, 0);
     return await successHandlerCallback(req, res, {
       message: `user retrieved successfully`,
       data: {
         ...user,
+        followersCount,
+
+        followingsCount,
       },
     });
   } catch (error: any) {

@@ -12,7 +12,7 @@ import { getDefaultConfig } from "connectkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import { rainbowWeb3AuthConnector } from "../components/RainbowWeb3AuthConnector";
 import { rainbowWallet, metaMaskWallet } from "@rainbow-me/rainbowkit/wallets";
-import { chains ,publicClient} from "@/lib/wagmi-config";
+import { chains, publicClient } from "@/lib/wagmi-config";
 
 const config = createConfig(
   getDefaultConfig({
@@ -21,7 +21,7 @@ const config = createConfig(
     walletConnectProjectId: process.env.WALLETCONNECT_PROJECT_ID as string,
 
     // Required
-    appName: "Your App Name",
+    appName: "Articulaa",
 
     // Optional
     appDescription: "Your App Description",

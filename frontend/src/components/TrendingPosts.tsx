@@ -121,10 +121,17 @@ export default function TrendingPosts() {
               />
               <Stack gap={"10px"}>
                 <HStack gap={"10px"}>
-                  <Avatar src={post?.author?.avatar} size={"sm"} />{" "}
-                  <Text fontWeight={"medium"} fontSize={"14px"} as={"span"}>
-                    {post?.author?.fullName}
-                  </Text>
+                  <Link href={`/creators/${post.author.username}`}>
+                    <Avatar src={post?.author?.avatar} size={"sm"} />{" "}
+                  </Link>
+                  <Link
+                    textDecor={"none"}
+                    href={`/creators/${post.author.username}`}
+                  >
+                    <Text fontWeight={"medium"} fontSize={"14px"} as={"span"}>
+                      {post?.author?.fullName}
+                    </Text>
+                  </Link>
                 </HStack>
                 <Heading
                   fontWeight={"semibold"}
