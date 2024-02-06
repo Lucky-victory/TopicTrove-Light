@@ -3,9 +3,32 @@ import { Web3Auth } from "@web3auth/modal";
 import { configureChains } from "wagmi";
 import { mainnet, polygon, optimism, arbitrum, base, zora } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
+import { Chain } from "@wagmi/core";
+
+
+export const pegasus = {
+  id: 1891,
+  name: "Pegasus Testnet",
+  network: "pegasus",
+  nativeCurrency: {
+    decimals: 18,
+    name: "ETH",
+    symbol: "ETH",
+  },
+  rpcUrls: {
+    public: { http: ["https://replicator.pegasus.lightlink.io/rpc/v1"] },
+    default: { http: ["https://replicator.pegasus.lightlink.io/rpc/v1"] },
+  },
+  blockExplorers: {
+    etherscan: { name: "expolorer", url: "https://pegasus.lightlink.io/" },
+    default: { name: "expolorer", url: "https://pegasus.lightlink.io/" },
+  },
+
+} as const satisfies Chain;
+
 
 export const { chains, publicClient } = configureChains(
-  [mainnet, polygon, optimism, arbitrum, base, zora],
+  [pegasus, mainnet, polygon, optimism, arbitrum, base, zora],
   [publicProvider()],
 );
 export const chainConfig = () => ({
@@ -20,7 +43,7 @@ export const chainConfig = () => ({
 
 export const web3AuthInstance = new Web3Auth({
   clientId:
-    "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ",
+    "BO5agSMb5sACnG5fWFOtBtIz_C9lCb0UPm-Qin-Na5AdaRgnQYoACgsfqqP4tpiw916Bnvn7jkJL3Gjhr8GYRiI",
   chainConfig: chainConfig(),
   // uiConfig refers to the whitelabeling options, which is available only on Growth Plan and above
   // Please remove this parameter if you're on the Base Plan
@@ -40,3 +63,5 @@ export const web3AuthInstance = new Web3Auth({
   },
   web3AuthNetwork: OPENLOGIN_NETWORK.SAPPHIRE_MAINNET,
 });
+
+
