@@ -4,6 +4,7 @@ import { configureChains } from "wagmi";
 import { mainnet, polygon, optimism, arbitrum, base, zora } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { Chain } from "@wagmi/core";
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 
 
 export const pegasus = {
@@ -28,8 +29,15 @@ export const pegasus = {
 
 
 export const { chains, publicClient } = configureChains(
-  [pegasus, mainnet, polygon, optimism, arbitrum, base, zora],
-  [publicProvider()],
+  [pegasus],
+  [
+    jsonRpcProvider({
+      rpc: (chain) => ({
+        http: `https://replicator.pegasus.lightlink.io/rpc/v1`,
+      }),
+    }),
+    //publicProvider()
+  ],
 );
 export const chainConfig = () => ({
   chainNamespace: CHAIN_NAMESPACES.EIP155,
