@@ -69,7 +69,7 @@ export const web3AuthInstance = new Web3Auth({
     primaryButton: "externalLogin", // "externalLogin" | "socialLogin" | "emailLogin"
     modalZIndex: "2147483647",
   },
-  web3AuthNetwork: OPENLOGIN_NETWORK.SAPPHIRE_MAINNET,
+  web3AuthNetwork: OPENLOGIN_NETWORK.SAPPHIRE_DEVNET,
 });
 
 
