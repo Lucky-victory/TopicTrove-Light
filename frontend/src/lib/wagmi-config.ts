@@ -19,13 +19,12 @@ export const chainConfig = () => ({
 });
 
 export const web3AuthInstance = new Web3Auth({
-  clientId:
-    "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ",
+  clientId: process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID as string,
   chainConfig: chainConfig(),
   // uiConfig refers to the whitelabeling options, which is available only on Growth Plan and above
   // Please remove this parameter if you're on the Base Plan
   uiConfig: {
-    appName: "W3A",
+    appName: "TopicTrove",
     // appLogo: "https://web3auth.io/images/web3auth-logo.svg", // Your App Logo Here
     theme: {
       primary: "blue",
@@ -38,5 +37,5 @@ export const web3AuthInstance = new Web3Auth({
     primaryButton: "externalLogin", // "externalLogin" | "socialLogin" | "emailLogin"
     modalZIndex: "2147483647",
   },
-  web3AuthNetwork: OPENLOGIN_NETWORK.SAPPHIRE_MAINNET,
+  web3AuthNetwork: OPENLOGIN_NETWORK.SAPPHIRE_DEVNET,
 });

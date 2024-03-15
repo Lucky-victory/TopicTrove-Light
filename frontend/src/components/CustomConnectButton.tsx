@@ -1,6 +1,6 @@
 import { Button, Image } from "@chakra-ui/react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-export const CustomConnectButton= () => {
+export const CustomConnectButton = () => {
   return (
     <ConnectButton.Custom>
       {({
@@ -34,14 +34,14 @@ export const CustomConnectButton= () => {
             {(() => {
               if (!connected) {
                 return (
-                  <Button rounded={'full'} onClick={openConnectModal} >
+                  <Button rounded={"full"} onClick={openConnectModal}>
                     Connect Wallet
                   </Button>
                 );
               }
               if (chain.unsupported) {
                 return (
-                  <Button rounded={'full'} onClick={openChainModal} >
+                  <Button rounded={"full"} onClick={openChainModal}>
                     Wrong network
                   </Button>
                 );
@@ -51,7 +51,6 @@ export const CustomConnectButton= () => {
                   <Button
                     onClick={openChainModal}
                     style={{ display: "flex", alignItems: "center" }}
-                    
                   >
                     {chain.hasIcon && (
                       <div
@@ -68,14 +67,15 @@ export const CustomConnectButton= () => {
                           <Image
                             alt={chain.name ?? "Chain icon"}
                             src={chain.iconUrl}
-                            width= {'12px'} height={'12px' }
+                            width={"12px"}
+                            height={"12px"}
                           />
                         )}
                       </div>
                     )}
                     {chain.name}
                   </Button>
-                  <Button onClick={openAccountModal} >
+                  <Button onClick={openAccountModal}>
                     {account.displayName}
                     {account.displayBalance
                       ? ` (${account.displayBalance})`
